@@ -8,12 +8,28 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 
+const HardhatNetworkChain = {
+  id: 1337,
+  name: 'Hardhat Network',
+  network: 'Hardhat',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'ETH',
+    symbol: 'ETH',
+  },
+  rpcUrls: {
+    default: 'http://localhost:8545',
+  },
+  testnet: true,
+}
+
 const {chains, provider } = configureChains(
   [
     chain.mainnet,
     chain.arbitrum,
     chain.sepolia,
-    chain.polygon
+    chain.polygon,
+    HardhatNetworkChain
   ],
   [
     alchemyProvider({alchemyId: process.env.ALCHEMY_KEY}),
