@@ -5,6 +5,7 @@ import StakingPoolInfo from './components/StakingPoolInfo';
 import { useContract, useContractRead, useSigner } from 'wagmi'
 import { Button, Container, Row, Table } from 'react-bootstrap';
 import Deposit from './components/Deposit';
+import WalletBalance from './components/WalletBalance';
 
 function App() {
   const stakingWalletContract = {
@@ -68,6 +69,9 @@ function App() {
                   <tr key={i}>
                     <td>
                       <Deposit contract={contract} walletId={i} />
+                    </td>
+                    <td>
+                      <WalletBalance stakingWalletContract={stakingWalletContract} walletId = {i} />
                     </td>
                   </tr>
                 )
