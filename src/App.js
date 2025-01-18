@@ -3,7 +3,8 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Staking from './artifacts/contracts/Staking.sol/Staking.json'
 import StakingPoolInfo from './components/StakingPoolInfo';
 import { useContract, useContractRead, useSigner } from 'wagmi'
-import { Button, Container, Row } from 'react-bootstrap';
+import { Button, Container, Row, Table } from 'react-bootstrap';
+import Deposit from './components/Deposit';
 
 function App() {
   const stakingWalletContract = {
@@ -24,6 +25,12 @@ function App() {
     await contract.walletCreate()
   }
 
+  const { data: wallets } = useContractRead({
+    ...stakingWalletContract,
+    functionName: 'getWallets',
+    watch: true,
+  })
+
 
   return (
     <div className='container flex flex-col items-center mt-10'>
@@ -34,6 +41,41 @@ function App() {
       <StakingPoolInfo stakingWalletContract={stakingWalletContract} />
 
       <br />
+
+      <Container>
+        <Row>
+          <h3 className='text-5xl font-bold mb-20'>{'My Wallets'}</h3>
+        </Row>
+        <Row>
+          <Table striped hover bordered>
+            <thead>
+              <tr>
+                <th>Wallet Id</th>
+                <th>Deposit</th>
+                <th>Current Balance</th>
+
+                <th>Withdraw</th>
+                <th>Staked?</th>
+                <th>Stake</th>
+                <th>Current Stake</th>
+                <th>Unstake</th>
+                <th>Current Staked Rewards</th>
+              </tr>
+            </thead>
+            <tbody>
+              { wallets && wallets.map((wallet, i) => {
+                return (
+                  <tr key={i}>
+                    <td>
+                      <Deposit contract={contract} walletId={i} />
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </Table>
+        </Row>
+      </Container>
 
       <Container>
         <Row>
