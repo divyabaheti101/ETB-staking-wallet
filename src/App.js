@@ -8,6 +8,7 @@ import Deposit from './components/Deposit';
 import WalletBalance from './components/WalletBalance';
 import Withdraw from './components/Withdraw';
 import { ethers } from 'ethers';
+import Stake from './components/Stake';
 
 function App() {
   const stakingWalletContract = {
@@ -81,6 +82,9 @@ function App() {
                     <td>
                       {ethers.utils.formatEther(wallet.stakedAmount) > 0 ? 
                       'Yes' : 'No'}
+                    </td>
+                    <td>
+                      <Stake stakingWalletContract={stakingWalletContract} walletId={i} contract={contract} />
                     </td>
                   </tr>
                 )
