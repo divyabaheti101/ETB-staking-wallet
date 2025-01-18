@@ -6,6 +6,8 @@ import { useContract, useContractRead, useSigner } from 'wagmi'
 import { Button, Container, Row, Table } from 'react-bootstrap';
 import Deposit from './components/Deposit';
 import WalletBalance from './components/WalletBalance';
+import Withdraw from './components/Withdraw';
+import { ethers } from 'ethers';
 
 function App() {
   const stakingWalletContract = {
@@ -72,6 +74,13 @@ function App() {
                     </td>
                     <td>
                       <WalletBalance stakingWalletContract={stakingWalletContract} walletId = {i} />
+                    </td>
+                    <td>
+                      <Withdraw contract={contract} walletId = {i} />
+                    </td>
+                    <td>
+                      {ethers.utils.formatEther(wallet.stakedAmount) > 0 ? 
+                      'Yes' : 'No'}
                     </td>
                   </tr>
                 )

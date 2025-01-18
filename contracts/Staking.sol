@@ -17,7 +17,7 @@ contract Staking is ERC20 {
 
     struct StakeWallet{
         Wallet user;
-        uint256 stakedAMount;
+        uint256 stakedAmount;
         uint256 sinceBlock;
         uint256 untilBlock;
     }
@@ -81,10 +81,10 @@ contract Staking is ERC20 {
         wallet.user.withdraw(payable(address(this)), balanceOfWallet);
 
         uint256 stakedForBlocks = block.timestamp - wallet.sinceBlock;
-        uint256 unclaimedReward = (stakedForBlocks * wallet.stakedAMount * percentPerBlock) /100;
+        uint256 unclaimedReward = (stakedForBlocks * wallet.stakedAmount * percentPerBlock) /100;
         _mint(msg.sender, unclaimedReward);
 
-        wallet.stakedAMount += balanceOfWallet;
+        wallet.stakedAmount += balanceOfWallet;
         wallet.sinceBlock = block.timestamp;
         wallet.untilBlock = 0;
 
@@ -95,13 +95,13 @@ contract Staking is ERC20 {
 
     function currentStake(uint256 _walletId) public view returns (uint256) {
         StakeWallet memory wallet = stakeWallets[_walletId];
-        return wallet.stakedAMount;
+        return wallet.stakedAmount;
     }
 
     function currentReward(uint256 _walletId) public view returns (uint256) {
         StakeWallet memory wallet = stakeWallets[_walletId];
         uint256 stakedForBlocks = block.timestamp - wallet.sinceBlock;
-        uint256 unclaimedReward = (stakedForBlocks * wallet.stakedAMount * percentPerBlock) /100;
+        uint256 unclaimedReward = (stakedForBlocks * wallet.stakedAmount * percentPerBlock) /100;
         return unclaimedReward;
     }
 
@@ -121,7 +121,7 @@ contract Staking is ERC20 {
         StakeWallet storage wallet = stakeWallets[_walletId];
         require(wallet.untilBlock == 0, "has already unstaked");
 
-        uint256 currentBalance = wallet.stakedAMount;
+        uint256 currentBalance = wallet.stakedAmount;
         payable(address(wallet.user)).transfer(currentBalance);
 
         uint256 rewardAmount = currentReward(_walletId);
@@ -129,11 +129,11 @@ contract Staking is ERC20 {
 
         wallet.untilBlock = block.timestamp;
         wallet.sinceBlock = 0;
-        wallet.stakedAMount = 0;
+        wallet.stakedAmount = 0;
 
         walletsStaked.remove(_walletId);
 
-        emit UnstakeETH(_walletId, wallet.stakedAMount, rewardAmount);
+        emit UnstakeETH(_walletId, wallet.stakedAmount, rewardAmount);
     }
 
     receive() external payable{}
