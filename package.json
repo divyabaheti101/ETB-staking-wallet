@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "@openzeppelin/contracts": "^5.2.0",
-    "@rainbow-me/rainbowkit": "1.2",
+    "@rainbow-me/rainbowkit": "^2.2.2",
+    "@tanstack/react-query": "^5.64.2",
     "bootstrap": "^5.3.3",
     "cra-template": "1.2.0",
     "react": "^19.0.0",
@@ -12,7 +13,7 @@
     "react-dom": "^19.0.0",
     "react-scripts": "5.0.1",
     "viem": "^2.22.9",
-    "wagmi": "^1.4.13"
+    "wagmi": "^2.14.8"
   },
   "scripts": {
     "start": "react-scripts start",

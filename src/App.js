@@ -10,39 +10,34 @@ import { ethers } from 'ethers';
 import Stake from './components/Stake';
 import Unstake from './components/Unstake';
 import CurrentReward from './components/CurrentReward';
-import { useContractRead, useWalletClient } from 'wagmi';
-import { getContract } from 'wagmi/actions';
+import { useReadContract, useWalletClient } from 'wagmi';
+import { getContract } from 'viem';
 
 function App() {
-  // const stakingWalletContract = {
-  //   address: '0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9',
-  //   abi: Staking.abi,
-  // }
+  const stakingWalletContract = {
+    address: '0xe7f1725e7734ce288f8367e1bb143e90bb3f0512',
+    abi: Staking.abi,
+  }
 
-  // // Create a contract instance
-  // const { data: walletClient } = useWalletClient()
-  // // const contract = getContract({
-  // //   addressOrName: stakingWalletContract.address,
-  // //   contractInterface: stakingWalletContract.abi,
-  // //   signerOrProvider: walletClient,
-  // // })
-  // const contract = getContract({
-  //   address: stakingWalletContract.address,
-  //   abi: stakingWalletContract.abi,
-  //   walletClient: walletClient
-  // })
+  // Create a contract instance
+  const { data: walletClient } = useWalletClient()
+  const contract = getContract({
+    address: stakingWalletContract.address,
+    abi: stakingWalletContract.abi,
+    walletClient: walletClient
+  })
 
 
-  // // Create a new wallet
-  // const walletCreate = async () => {
-  //   await contract.walletCreate()
-  // }
+  // Create a new wallet
+  const walletCreate = async () => {
+    await contract.walletCreate()
+  }
 
-  // const { data: wallets } = useContractRead({
-  //   ...stakingWalletContract,
-  //   functionName: 'getWallets',
-  //   watch: true,
-  // })
+  const { data: wallets } = useReadContract({
+    ...stakingWalletContract,
+    functionName: 'getWallets',
+    watch: true,
+  })
 
 
   return (
@@ -50,12 +45,11 @@ function App() {
       <div className='flex-mb-6'>
         <ConnectButton />
       </div>
-
-      {/* <StakingPoolInfo stakingWalletContract={stakingWalletContract} /> */}
+       <StakingPoolInfo stakingWalletContract={stakingWalletContract} />
 
       <br />
 
-      {/* <Container>
+      <Container>
         <Row>
           <h3 className='text-5xl font-bold mb-20'>{'My Wallets'}</h3>
         </Row>
@@ -110,15 +104,15 @@ function App() {
             </tbody>
           </Table>
         </Row>
-      </Container> */}
+      </Container>
 
-      {/* <Container>
+      <Container>
         <Row>
           <Button type='dark' onClick={walletCreate} >
             Create a new Wallet
           </Button>
         </Row>
-      </Container> */}
+      </Container>
     </div>
   );
 }

@@ -4,51 +4,43 @@ import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit';
-import { WagmiConfig, createConfig, configureChains, mainnet } from 'wagmi'
-//import { arbitrum, polygon, sepolia, mainnet } from 'wagmi/chains';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
-import { publicProvider } from 'wagmi/providers/public';
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { createConfig, http, WagmiProvider } from 'wagmi'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { hardhat, mainnet, sepolia } from 'viem/chains';
+import { defineChain } from 'viem';
 
-const HardhatNetworkChain = {
-  id: 1337,
-  name: 'Hardhat Network',
-  network: 'Hardhat',
-  nativeCurrency: {
-    decimals: 18,
-    name: 'ETH',
-    symbol: 'ETH',
-  },
-  rpcUrls: {
-    default: 'http://localhost:8545',
-  },
-  testnet: true,
-}
+// export const hardhat = defineChain({
+//   id: 1337,
+//   name: 'Hardhat Network',
+//   // network: 'Hardhat',
+//   nativeCurrency: {
+//     decimals: 18,
+//     name: 'ETH',
+//     symbol: 'ETH',
+//   },
+//   rpcUrls: {
+//     default: {http: ['http://localhost:8545'] },
+//   },
+//   testnet: true,
+// })
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mainnet],
-  [publicProvider()],
-)
-
-const { connectors } = getDefaultWallets({
-  appName: 'StakingWalletDapp',
-  chains
+export const config = createConfig({
+  chains: [mainnet, sepolia, hardhat],
 })
 
-const config = createConfig({
-  autoConnect: true,
-  connectors: [connectors],
-  publicClient,
-})
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <WagmiConfig config={config}>
-      <RainbowKitProvider chains={chains}>
-        <App />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>
+          <App />
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   </React.StrictMode>
 );
 

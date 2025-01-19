@@ -13,7 +13,7 @@ module.exports = {
   defaultNetwork: 'hardhat',
   networks:{
     hardhat:{
-      chainId: 1337,
+      chainId: 31337,
       // mining: {
       //   auto: true,
       //   interval: 5000
