@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
+
+import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit';
+import { WagmiConfig, createConfig, configureChains, mainnet } from 'wagmi'
+//import { arbitrum, polygon, sepolia, mainnet } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 
 const HardhatNetworkChain = {
   id: 1337,
@@ -23,18 +25,9 @@ const HardhatNetworkChain = {
   testnet: true,
 }
 
-const {chains, provider } = configureChains(
-  [
-    chain.mainnet,
-    chain.arbitrum,
-    chain.sepolia,
-    chain.polygon,
-    HardhatNetworkChain
-  ],
-  [
-    alchemyProvider({alchemyId: process.env.ALCHEMY_KEY}),
-    publicProvider()
-  ]
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  [mainnet],
+  [publicProvider()],
 )
 
 const { connectors } = getDefaultWallets({
@@ -42,16 +35,16 @@ const { connectors } = getDefaultWallets({
   chains
 })
 
-const wagmiClient = createClient({
+const config = createConfig({
   autoConnect: true,
-  connectors,
-  provider
+  connectors: [connectors],
+  publicClient,
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <WagmiConfig client={wagmiClient} >
+    <WagmiConfig config={config}>
       <RainbowKitProvider chains={chains}>
         <App />
       </RainbowKitProvider>

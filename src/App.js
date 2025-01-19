@@ -2,7 +2,6 @@ import './App.css';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Staking from './artifacts/contracts/Staking.sol/Staking.json'
 import StakingPoolInfo from './components/StakingPoolInfo';
-import { useContract, useContractRead, useSigner } from 'wagmi'
 import { Button, Container, Row, Table } from 'react-bootstrap';
 import Deposit from './components/Deposit';
 import WalletBalance from './components/WalletBalance';
@@ -11,31 +10,39 @@ import { ethers } from 'ethers';
 import Stake from './components/Stake';
 import Unstake from './components/Unstake';
 import CurrentReward from './components/CurrentReward';
+import { useContractRead, useWalletClient } from 'wagmi';
+import { getContract } from 'wagmi/actions';
 
 function App() {
-  const stakingWalletContract = {
-    address: '0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9',
-    abi: Staking.abi,
-  }
+  // const stakingWalletContract = {
+  //   address: '0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9',
+  //   abi: Staking.abi,
+  // }
 
-  // Create a contract instance
-  const { data: signer } = useSigner()
-  const contract = useContract({
-    addressOrName: stakingWalletContract.address,
-    contractInterface: stakingWalletContract.abi,
-    signerOrProvider: signer,
-  })
+  // // Create a contract instance
+  // const { data: walletClient } = useWalletClient()
+  // // const contract = getContract({
+  // //   addressOrName: stakingWalletContract.address,
+  // //   contractInterface: stakingWalletContract.abi,
+  // //   signerOrProvider: walletClient,
+  // // })
+  // const contract = getContract({
+  //   address: stakingWalletContract.address,
+  //   abi: stakingWalletContract.abi,
+  //   walletClient: walletClient
+  // })
 
-  // Create a new wallet
-  const walletCreate = async () => {
-    await contract.walletCreate()
-  }
 
-  const { data: wallets } = useContractRead({
-    ...stakingWalletContract,
-    functionName: 'getWallets',
-    watch: true,
-  })
+  // // Create a new wallet
+  // const walletCreate = async () => {
+  //   await contract.walletCreate()
+  // }
+
+  // const { data: wallets } = useContractRead({
+  //   ...stakingWalletContract,
+  //   functionName: 'getWallets',
+  //   watch: true,
+  // })
 
 
   return (
@@ -44,11 +51,11 @@ function App() {
         <ConnectButton />
       </div>
 
-      <StakingPoolInfo stakingWalletContract={stakingWalletContract} />
+      {/* <StakingPoolInfo stakingWalletContract={stakingWalletContract} /> */}
 
       <br />
 
-      <Container>
+      {/* <Container>
         <Row>
           <h3 className='text-5xl font-bold mb-20'>{'My Wallets'}</h3>
         </Row>
@@ -103,16 +110,15 @@ function App() {
             </tbody>
           </Table>
         </Row>
-      </Container>
+      </Container> */}
 
-      <Container>
+      {/* <Container>
         <Row>
           <Button type='dark' onClick={walletCreate} >
             Create a new Wallet
           </Button>
         </Row>
-      </Container>
-            
+      </Container> */}
     </div>
   );
 }
