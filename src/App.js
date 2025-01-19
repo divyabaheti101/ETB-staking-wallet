@@ -9,6 +9,7 @@ import WalletBalance from './components/WalletBalance';
 import Withdraw from './components/Withdraw';
 import { ethers } from 'ethers';
 import Stake from './components/Stake';
+import Unstake from './components/Unstake';
 
 function App() {
   const stakingWalletContract = {
@@ -85,6 +86,12 @@ function App() {
                     </td>
                     <td>
                       <Stake stakingWalletContract={stakingWalletContract} walletId={i} contract={contract} />
+                    </td>
+                    <td>
+                      {ethers.utils.formatEther(wallet.stakedAmount)}
+                    </td>
+                    <td>
+                      <Unstake stakingWalletContract={stakingWalletContract} walletId={i} />
                     </td>
                   </tr>
                 )
