@@ -13,7 +13,11 @@ module.exports = {
   defaultNetwork: 'hardhat',
   networks:{
     hardhat:{
-      chainId: 1337
+      chainId: 1337,
+      // mining: {
+      //   auto: true,
+      //   interval: 5000
+      // }
     },
     sepolia: {
       url: 'https://eth-sepolia.g.alchemy.com/v2/iNCPMT_1qim4yc6JMPGm1uiK4cqUgWp-',

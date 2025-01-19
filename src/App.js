@@ -10,12 +10,11 @@ import Withdraw from './components/Withdraw';
 import { ethers } from 'ethers';
 import Stake from './components/Stake';
 import Unstake from './components/Unstake';
-import RewardComponent from './components/CurrentReward';
 import CurrentReward from './components/CurrentReward';
 
 function App() {
   const stakingWalletContract = {
-    address: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+    address: '0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9',
     abi: Staking.abi,
   }
 
