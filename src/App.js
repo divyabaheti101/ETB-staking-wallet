@@ -10,6 +10,8 @@ import Withdraw from './components/Withdraw';
 import { ethers } from 'ethers';
 import Stake from './components/Stake';
 import Unstake from './components/Unstake';
+import RewardComponent from './components/CurrentReward';
+import CurrentReward from './components/CurrentReward';
 
 function App() {
   const stakingWalletContract = {
@@ -92,6 +94,9 @@ function App() {
                     </td>
                     <td>
                       <Unstake stakingWalletContract={stakingWalletContract} walletId={i} />
+                    </td>
+                    <td>
+                      <CurrentReward contract={contract} walletId={i} />
                     </td>
                   </tr>
                 )
